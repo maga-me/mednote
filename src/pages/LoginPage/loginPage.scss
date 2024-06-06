@@ -1,0 +1,47 @@
+.login {
+    height: 100svh;
+    
+    &__box {
+        height: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    
+    &__card {
+        min-width: 344px !important;
+    }
+
+    // .login__title
+
+    &__title {
+    }
+
+    // .login__form
+
+    &__form {
+    }
+
+    // .login__email
+
+    &__email {
+    }
+
+    // .login__password
+
+    &__password {
+    }
+
+    // .login__btn
+
+    &__btn {
+    }
+}
+.mx-auto {
+}
+.px-6 {
+}
+.py-8 {
+}
+.mb-2 {
+}

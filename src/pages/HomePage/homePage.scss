@@ -1,0 +1,13 @@
+.home {
+    margin-top: 100px;
+
+    b {
+        filter: blur(3px);
+        user-select: none;
+        cursor: pointer;
+
+        &.active {
+            filter: blur(0);
+        }
+    }
+}

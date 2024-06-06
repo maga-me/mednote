@@ -1,0 +1,75 @@
+.patients {
+  // .patients__title
+
+  &__title {
+  }
+
+  // .patients__list
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  // .patients__item
+
+  &__item {
+    gap: 10px !important;
+
+    &-desc {
+      padding: 15px 20px !important;
+      
+    display: flex !important;
+    flex-direction: column !important;
+    }
+    
+      &-title {
+        padding: 0 !important;
+    }
+    
+    // .patients-fname
+    
+    &-fname {
+    }
+    
+    // .patients-lname
+    
+    &-lname {
+      }
+    
+      &-box {
+        padding: 0 !important;
+        display: flex !important;
+        justify-content: flex-end;
+      }
+    
+      &-phone {
+        padding: 0 !important;
+        a {
+            color: #333 !important;
+            
+        }
+      }
+  }
+
+  // .patients__item-title
+}
+.container {
+}
+.text-overline {
+}
+.text-green-darken-3 {
+}
+.text-h3 {
+}
+.font-weight-bold {
+}
+.text-h6 {
+}
+.text-medium-emphasis {
+}
+.font-weight-regular {
+}
+.font-weight-medium {
+}

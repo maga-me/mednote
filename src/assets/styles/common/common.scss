@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "MabryPro";
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  vertical-align: bottom;
+}
+
+button,
+input {
+  border: 0;
+}
+
+.container {
+  padding: 0 15px;
+  margin: 0 auto;
+  max-width: 1400px;
+  width: 100%;
+}
+
+section {
+  margin-top: 100px;
+}
+
+h1 {
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 40px;
+}
