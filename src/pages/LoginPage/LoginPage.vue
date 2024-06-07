@@ -172,7 +172,13 @@ const mockUsers = [
       surname: "Salohiddinov",
       accessLvl: "Admin"
   },
-  
+  {
+      login: "abdusaid",
+      password: "4444",
+      name: "Abdusaid",
+      surname: "Salohiddinov",
+      accessLvl: "Admin"
+  },
 
 ]
 // Function to simulate user data lookup (replace with actual data source)

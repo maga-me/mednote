@@ -19,7 +19,7 @@ function logout() {
 </script>
 
 <template>
-  <header class="header">
+  <header class="header" :elevation="7">
     <nav class="nav">
       <div class="container">
         <router-link to="/" class="nav__logo">Mednote</router-link>
@@ -41,7 +41,8 @@ function logout() {
                 <v-btn
                   class="nav__logout-bar--btn nav__logout-bar--btn-cancel"
                   variant="text"
-                  ><span @click="overlay = false">Bekor qilish</span></v-btn
+                  @click="overlay = false"
+                  ><span >Bekor qilish</span></v-btn
                 >
                 <v-btn
                   class="nav__logout-bar--btn nav__logout-bar--btn-ok"

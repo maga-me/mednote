@@ -138,10 +138,10 @@ export const useDataStore = defineStore('data', {
   },
   actions: {
     addPatient(patient) {
-      this.patientsList.push(patient);
+      this.patientsList.unshift(patient);
     },
     addReporter(reporter) {
-      this.reporterList.push(reporter);
+      this.reporterList.unshift(reporter);
     }
   }
 });

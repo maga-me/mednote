@@ -1,90 +1,112 @@
 .reporters {
-    // .patients__title
-  
-    &__title {
-    }
-  
-    // .patients__list
-  
-    &__list {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-  
-    // .patients__item
-  
-    &__item {
-      gap: 10px !important;
-  
-      
-      &-desc {
-        padding: 15px 20px !important;
-        
+  // .patients__title
+  &__data {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: 10px;
+  }
+
+  input {
+    border: 1px solid #333;
+  }
+
+  &__overlay {
+  display: grid !important;
+  place-items: center !important;
+  }
+
+  &__form {
+    background: #fff !important;
+    min-width: 400px;
+  }
+
+  &__inp {
+  }
+
+  &__fname {
+  }
+
+  &__title {
+  }
+
+  // .patients__list
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  // .patients__item
+
+  &__item {
+    gap: 10px !important;
+
+    &-desc {
+      padding: 15px 20px !important;
+
       display: flex !important;
       flex-direction: column !important;
-      }
-      
-      &-title {
-          padding: 0 !important;
-        }
-      
-        // .patients-fname
-      
-      &-fname {
     }
-      
-    // .patients-lname
-      
-      &-lname {
-        }
-        
-        &-box {
-            padding: 0 !important;
-          display: flex !important;
-          flex-direction: column;
-          justify-content: flex-end;
-        }
-      
-        &-phone {
-          padding: 0 !important;
-          a {
-              color: #333 !important;
-              
-            }
-        }
-        &-password {
-          
-            b {
-                filter: blur(7px);
-                user-select: none;
-                cursor: pointer;
 
-                &.active {
-                    filter: blur(0);
-                }
-            }
-        }
+    &-title {
+      padding: 0 !important;
     }
-  
-    // .patients__item-title
+
+    // .patients-fname
+
+    &-fname {
+    }
+
+    // .patients-lname
+
+    &-lname {
+    }
+
+    &-box {
+      padding: 0 !important;
+      display: flex !important;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    &-phone {
+      padding: 0 !important;
+      a {
+        color: #333 !important;
+      }
+    }
+    &-password {
+      b {
+        filter: blur(7px);
+        user-select: none;
+        cursor: pointer;
+
+        &.active {
+          filter: blur(0);
+        }
+      }
+    }
+  }
+
+  // .patients__item-title
 }
-  .container {
+.container {
 }
-  .text-overline {
-  }
-  .text-green-darken-3 {
-  }
-  .text-h3 {
-  }
-  .font-weight-bold {
-  }
-  .text-h6 {
-  }
-  .text-medium-emphasis {
-  }
-  .font-weight-regular {
-  }
-  .font-weight-medium {
-  }
-  
+.text-overline {
+}
+.text-green-darken-3 {
+}
+.text-h3 {
+}
+.font-weight-bold {
+}
+.text-h6 {
+}
+.text-medium-emphasis {
+}
+.font-weight-regular {
+}
+.font-weight-medium {
+}
