@@ -10,12 +10,7 @@ export const useDataStore = defineStore('data', {
         lastName: "Figueroa",
         middleName: "Niamh",
         dateOfBirth: "2008-04-12T12:30:00Z",
-        address: {
-          street: "Street Temur Malik, Mirzo-ulugbek Area, 100125",
-          city: "Toshkent",
-          district: "Chilonzor",
-          country: "Uzbekistan",
-        },
+        address: "Tashkent",
         phone: "+998976554321",
         ambulatorCard: "N12345",
         type: "patient"
@@ -26,12 +21,7 @@ export const useDataStore = defineStore('data', {
         lastName: "Kathleen",
         middleName: "Riggs",
         dateOfBirth: "2003-06-13T12:30:00Z",
-        address: {
-          street: "Street Temur Malik, Mirzo-ulugbek Area, 100125",
-          city: "Toshkent",
-          district: "Chilonzor",
-          country: "Uzbekistan",
-        },
+        address: "Tashkent",
         phone: "+998976554321",
         ambulatorCard: "N12345",
         type: "patient"
@@ -42,12 +32,7 @@ export const useDataStore = defineStore('data', {
         lastName: "Merrill",
         middleName: "Kayne",
         dateOfBirth: "2008-01-14T12:30:00Z",
-        address: {
-          street: "Street Temur Malik, Mirzo-ulugbek Area, 100125",
-          city: "Toshkent",
-          district: "Chilonzor",
-          country: "Uzbekistan",
-        },
+        address: "Tashkent",
         phone: "+998976554321",
         ambulatorCard: "N12345",
         type: "patient"
@@ -58,12 +43,7 @@ export const useDataStore = defineStore('data', {
         lastName: "Stokes",
         middleName: "Glenn",
         dateOfBirth: "2008-10-30T12:30:00Z",
-        address: {
-          street: "Street Temur Malik, Mirzo-ulugbek Area, 100125",
-          city: "Toshkent",
-          district: "Chilonzor",
-          country: "Uzbekistan",
-        },
+        address: "Tashkent",
         phone: "+998976554321",
         ambulatorCard: "N12345",
         type: "patient"
@@ -131,17 +111,32 @@ export const useDataStore = defineStore('data', {
         type: "reporter"
       }
     ],
+    patientData: {}
   }),
   getters: {
-    totalPatients: (state) => state.patientsList.length,
+    totalPatients: (state) => state.patientList.length,
     totalReporters: (state) => state.reporterList.length,
   },
   actions: {
     addPatient(patient) {
-      this.patientsList.unshift(patient);
+      if (!Array.isArray(this.patientList)) {
+        this.patientList = [];
+      }
+      this.patientList.unshift(patient);
     },
     addReporter(reporter) {
       this.reporterList.unshift(reporter);
-    }
+    },
+    findPatientById(id) {
+      this.patientData = this.patientList.find((patient) => patient.id === Number(id));
+    },
+    patchPatient(updatedPatient) {
+      this.patientData = updatedPatient;
+
+      const index = this.patientList.findIndex((patient) => patient.id === updatedPatient.id);
+      if (index !== -1) {
+        this.patientList[index] = updatedPatient;
+      }
+    },
   }
 });
