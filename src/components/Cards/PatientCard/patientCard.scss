@@ -1,40 +1,32 @@
 .patients__card {
-    gap: 10px !important;
+  gap: 10px !important;
 
-    &-desc {
-      padding: 10px 15px !important;
-      
+  &-desc {
+    padding: 10px 15px !important;
+
     display: flex !important;
     flex-direction: column !important;
-    }
-    
-      &-title {
-        padding: 0 !important;
-    }
-    
-    // .patients-fname
-    
-    &-fname {
-        font-size: 36px !important;
-        color: red !important;
-    }
-    
-    // .patients-lname
-    
-    &-lname {
-      }
-    
-      &-box {
-        padding: 0 !important;
-        display: flex !important;
-        justify-content: flex-end;
-      }
-    
-      &-phone {
-        padding: 0 !important;
-        a {
-            color: #333 !important;
-            
-        }
-      }
   }
+
+  &-title {
+    padding: 0 !important;
+  }
+
+  &-fname {
+    font-size: 36px !important;
+    color: rgb(1, 128, 1) !important;
+  }
+
+  &-box {
+    padding: 0 !important;
+    display: flex !important;
+    justify-content: flex-end;
+  }
+
+  &-phone {
+    padding: 0 !important;
+    a {
+      color: #333 !important;
+    }
+  }
+}

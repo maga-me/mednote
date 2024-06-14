@@ -2,21 +2,18 @@
   &__overlay {
     display: grid !important;
     place-items: center !important;
+
+    &-card {
+      padding: 20px !important;
+      background: #fff !important;
+      overflow: visible !important;
+    }
   }
 
   &__form {
     max-width: 400px !important;
     min-width: 320px !important;
     width: 100% !important;
-  }
-
-  &__inp {
-  }
-
-  &__fname {
-  }
-
-  &__title {
   }
 
   &__list {
@@ -34,7 +31,27 @@
     min-width: 320px !important;
     width: 100% !important;
     margin: 5px 0 20px;
-    // padding: 20px 0 0;
+
+    &_wrapper {
+      position: relative;
+    }
+
+    &_label {
+      position: absolute;
+      top: 50%;
+      left: 42px;
+      transform: translateY(-50%);
+      transition: all 0.2s ease;
+      pointer-events: none;
+      z-index: 99;
+      color: #999;
+
+      &.label-active {
+        top: 13px;
+        left: 42px;
+        font-size: 12px;
+      }
+    }
 
     input {
       height: 60px;
@@ -52,134 +69,72 @@
       }
     }
 
-    .dp--menu-wrapper {
-      min-height: 300px !important;
-      max-width: 300px !important;
-      width: 100% !important;
-    }
-
-    .dp__selection_preview {
-      max-width: 100px !important;
-      width: 100%;
-    }
-
-    .dp__button {
-      display: none;
-    }
-
-    .dp__input_icon {
-      // transform: translateY(-50%);
-    }
-
-    .dp__action_select,
-    .dp__action_cancel {
-      padding: 10px 10px !important;
-      border: 0;
-      height: 40px;
-      transition: 400;
-      box-shadow: 0px 3px 1px -2px var(--v-shadow-key-umbra-opacity, rgba(0, 0, 0, 0.2)),
-        0px 2px 2px 0px
-          var(--v-shadow-key-penumbra-opacity, rgba(0, 0, 0, 0.14)),
-        0px 1px 5px 0px var(--v-shadow-key-ambient-opacity, rgba(0, 0, 0, 0.12)) !important;
-    }
-
-    .dp__action_cancel {
-      color: #333;
-
-      &:hover {
-        color: #000;
+    .dp {
+      &--menu-wrapper {
+        min-height: 300px !important;
+        max-width: 300px !important;
+        width: 100% !important;
       }
-    }
 
-    .dp__action_select {
-      &:hover {
+      &__selection_preview {
+        max-width: 100px !important;
+        width: 100%;
+      }
+
+      &__button {
+        display: none;
+      }
+
+      &__action_select,
+      &__action_cancel {
+        padding: 10px 10px !important;
+        border: 0;
+        height: 40px;
+        transition: 400;
+        box-shadow: 0px 3px 1px -2px var(--v-shadow-key-umbra-opacity, rgba(0, 0, 0, 0.2)),
+          0px 2px 2px 0px
+            var(--v-shadow-key-penumbra-opacity, rgba(0, 0, 0, 0.14)),
+          0px 1px 5px 0px
+            var(--v-shadow-key-ambient-opacity, rgba(0, 0, 0, 0.12)) !important;
+      }
+
+      &__action_cancel {
+        color: #333;
+
+        &:hover {
+          color: #000;
+        }
+      }
+
+      &__action_select {
+        &:hover {
+          background: #333;
+          opacity: 0.8;
+        }
+      }
+
+      &__action_select,
+      &__overlay_cell_active,
+      &__active_date,
+      &__active_month {
         background: #333;
-        opacity: 0.8;
+      }
+
+      &__menu_index {
+        min-height: 350px !important;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      &__action_row {
+        min-height: 100% !important;
+      }
+
+      &__clear_icon {
+        display: none;
       }
     }
-
-    .dp__action_select,
-    .dp__overlay_cell_active,
-    .dp__active_date,
-    .dp__active_month {
-      background: #333;
-    }
-
-    .dp__menu_index {
-      min-height: 350px !important;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .dp__action_row {
-      min-height: 100% !important;
-    }
-
-    .dp__clear_icon {
-      display: none;
-    }
   }
-
-  &__label {
-    // position: absolute;
-    // top: 7px !important;
-    // left: 10px;
-    // margin-left: 6px !important;
-    // font-size: 12px;
-    // color: #979797;
-    // font-weight: 400;
-    // z-index: 99;
-
-    color: #717171;
-    font-weight: 400;
-  }
-
-  &__card {
-    padding: 20px !important;
-    background: #fff !important;
-    overflow: visible !important;
-  }
-}
-.container {
-}
-.text-overline {
-}
-.text-green-darken-3 {
-}
-.text-h3 {
-}
-.font-weight-bold {
-}
-.text-h6 {
-}
-.text-medium-emphasis {
-}
-.font-weight-regular {
-}
-.font-weight-medium {
-}
-
-.date-picker-wrapper {
-  position: relative;
-}
-
-.patients__label {
-  position: absolute;
-  top: 50%;
-  left: 42px;
-  transform: translateY(-50%);
-  transition: all 0.2s ease;
-  pointer-events: none;
-  z-index: 99;
-  color: #999;
-  // font-weight: 200;
-}
-
-.label-active {
-  top: 13px;
-  left: 42px;
-  font-size: 12px;
-  /* Change to desired color */
 }

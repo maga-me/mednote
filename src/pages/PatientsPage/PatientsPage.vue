@@ -55,7 +55,15 @@ const address = ref("");
 const ambulatorCard = ref("");
 
 function addPatient() {
-  if (firstName.value !== "" && lastName.value !== "" && middleName.value !== "" && dateOfBirth.value !== "" && phone.value !== "" && address.value !== "" && ambulatorCard.value !== "") {
+  if (
+    firstName.value !== "" &&
+    lastName.value !== "" &&
+    middleName.value !== "" &&
+    dateOfBirth.value !== "" &&
+    phone.value !== "" &&
+    address.value !== "" &&
+    ambulatorCard.value !== ""
+  ) {
     data.addPatient({
       id: 123123,
       firstName: firstName.value,
@@ -65,7 +73,7 @@ function addPatient() {
       dateOfBirth: dateOfBirth.value,
       address: address.value,
       ambulatorCard: ambulatorCard.value,
-      type: "patient"
+      type: "patient",
     });
 
     overlay.value = false;
@@ -120,7 +128,6 @@ const format = (date) => {
 //   }, 2000);
 // }
 
-
 // datePicker
 
 const id = `dp-${Math.random().toString(36).substring(2, 10)}`;
@@ -156,93 +163,87 @@ const handleBlur = () => {
       </v-card> -->
 
       <v-overlay v-model="overlay" class="patients__overlay">
-        <v-card class="patients__card">
-
+        <v-card class="patients__overlay-card">
           <v-form class="patients__form" fast-fail @submit.prevent="addPatient">
-          <v-text-field
-            v-model="firstName"
-            label="Ism"
-            :rules="[() => !!firstName || `Bu joyni to'ldiring`]"
-            class="patients__inp patients__fname"
-            prepend-inner-icon="mdi-map-marker"
-            required
-          ></v-text-field>
+            <v-text-field
+              v-model="firstName"
+              label="Ism"
+              :rules="[() => !!firstName || `Bu joyni to'ldiring`]"
+              class="patients__inp patients__fname"
+              prepend-inner-icon="mdi-map-marker"
+              required
+            ></v-text-field>
 
-          <v-text-field
-            v-model="lastName"
-            label="Familiya"
-            :rules="[() => !!lastName || `Bu joyni to'ldiring`]"
-            class="patients__inp patients__lname"
-            prepend-inner-icon="mdi-map-marker"
+            <v-text-field
+              v-model="lastName"
+              label="Familiya"
+              :rules="[() => !!lastName || `Bu joyni to'ldiring`]"
+              class="patients__inp patients__lname"
+              prepend-inner-icon="mdi-map-marker"
+              required
+            ></v-text-field>
 
-            required
-          ></v-text-field>
+            <v-text-field
+              v-model="middleName"
+              label="Otasining ismi"
+              :rules="[() => !!middleName || `Bu joyni to'ldiring`]"
+              class="patients__inp patients__mname"
+              prepend-inner-icon="mdi-map-marker"
+              required
+            ></v-text-field>
 
-          <v-text-field
-            v-model="middleName"
-            label="Otasining ismi"
-            :rules="[() => !!middleName || `Bu joyni to'ldiring`]"
-            class="patients__inp patients__mname"
-            prepend-inner-icon="mdi-map-marker"
-            required
-          ></v-text-field>
+            <div class="patients__date-picker_wrapper">
+              <label
+                :for="id"
+                class="patients__date-picker_label"
+                :class="{ 'label-active': isFocused || dateOfBirth }"
+              >
+                Tug'ilgan kun, oy, yil
+              </label>
+              <VueDatePicker
+                v-model="dateOfBirth"
+                :format="format"
+                :format-locale="uz"
+                class="patients__date-picker"
+                cancel-text="Bekor qilish"
+                select-text="Saqlash"
+                :id="id"
+                required
+                @focus="handleFocus"
+                @blur="handleBlur"
+                :rules="[() => !!dateOfBirth || `Bu joyni to'ldiring`]"
+              ></VueDatePicker>
+            </div>
 
-          <!-- <v-card for="dp" :elevation="1" class="patients__card"> -->
+            <v-text-field
+              v-model="address"
+              label="Manzil"
+              class="patients__inp patients__phone"
+              prepend-inner-icon="mdi-map-marker"
+              required
+              :rules="[() => !!address || `Bu joyni to'ldiring`]"
+            ></v-text-field>
 
-            <div class="date-picker-wrapper">
-    <label 
-      :for="id" 
-      class="patients__label" 
-      :class="{ 'label-active': isFocused || dateOfBirth }"
-    >
-      Tug'ilgan kun, oy, yil
-    </label>
-    <VueDatePicker
-      v-model="dateOfBirth"
-      :format="format"
-      :format-locale="uz"
-      class="patients__date-picker"
-      cancel-text="Bekor qilish"
-      select-text="Saqlash"
-      :id="id"
-      required
-      @focus="handleFocus"
-      @blur="handleBlur"
-      :rules="[() => !!dateOfBirth || `Bu joyni to'ldiring`]"
-    ></VueDatePicker>
-  </div>
-          <!-- </v-card> -->
+            <v-text-field
+              v-model="phone"
+              label="Telefon nomer"
+              class="patients__inp patients__phone"
+              prepend-inner-icon="mdi-map-marker"
+              required
+              :rules="[() => !!phone || `Bu joyni to'ldiring`]"
+            ></v-text-field>
 
-          <v-text-field
-            v-model="address"
-            label="Manzil"
-            class="patients__inp patients__phone"
-            prepend-inner-icon="mdi-map-marker"
-            required
-            :rules="[() => !!address || `Bu joyni to'ldiring`]"
-          ></v-text-field>
+            <v-text-field
+              v-model="ambulatorCard"
+              label="Ambulator raqam"
+              class="patients__inp patients__phone"
+              prepend-inner-icon="mdi-map-marker"
+              required
+              :rules="[() => !!ambulatorCard || `Bu joyni to'ldiring`]"
+            ></v-text-field>
 
-          <v-text-field
-            v-model="phone"
-            label="Telefon nomer"
-            class="patients__inp patients__phone"
-            prepend-inner-icon="mdi-map-marker"
-            required
-            :rules="[() => !!phone || `Bu joyni to'ldiring`]"
-          ></v-text-field>
-
-          <v-text-field
-            v-model="ambulatorCard"
-            label="Ambulator raqam"
-            class="patients__inp patients__phone"
-            prepend-inner-icon="mdi-map-marker"
-            required
-            :rules="[() => !!ambulatorCard || `Bu joyni to'ldiring`]"
-          ></v-text-field>
-
-          <v-btn class="mt-2" type="submit" block>Bemorni qo'shish</v-btn>
-        </v-form>
-
+            <v-btn class="mt-2 elevation-3" color="success" type="submit" block>Bemorni qo'shish</v-btn>
+          </v-form>
         </v-card>
       </v-overlay>
 
