@@ -98,9 +98,11 @@ const onSubmit = async () => { // Make async to handle potential asynchronous op
 </style> -->
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthDataStore } from '@/stores/login';
 const router = useRouter();
+const authDataStore = useAuthDataStore()
 
 const form = ref(false);
 const email = ref(null);
@@ -135,58 +137,13 @@ const onSubmit = async () => {
   }, 2000);
 };
 
-const mockUsers = [
-  
-  {
-      login: "maga",
-      password: "123",
-      name: "Maga",
-      surname: "Salohiddinov",
-      accessLvl: "User"
-  },
-  {
-      login: "asd",
-      password: "333",
-      name: "Asd",
-      surname: "asd",
-      accessLvl: "User"
-  },
-  {
-      login: "admin",
-      password: "111",
-      name: "Admin",
-      surname: "Salohiddinov",
-      accessLvl: "Admin"
-  },
-  {
-      login: "ssss",
-      password: "444",
-      name: "sss",
-      surname: "ssssss",
-      accessLvl: "User"
-  },
-  {
-      login: "admin2",
-      password: "424",
-      name: "admin2",
-      surname: "Salohiddinov",
-      accessLvl: "Admin"
-  },
-  {
-      login: "abdusaid",
-      password: "4444",
-      name: "Abdusaid",
-      surname: "Salohiddinov",
-      accessLvl: "Admin"
-  },
+const mockUsers = JSON.parse(localStorage.getItem("authData"))
 
-]
-// Function to simulate user data lookup (replace with actual data source)
+console.log(authDataStore.authDataList);
+
 function findUser(login, password) {
-  // In a real application, you'd fetch user data from a secure backend
-  // This is just a placeholder for demonstration purposes
 
-  for (const user of mockUsers) {
+  for (const user of authDataStore?.authDataList) {
     if (user.login === login && user.password === password) {
       return user;
     }
