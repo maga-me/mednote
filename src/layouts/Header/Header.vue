@@ -1,33 +1,51 @@
 <script setup>
 import LogoutIcon from "@/components/icones/LogoutIcon.vue";
-import { ref } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 
-const router = useRouter()
+const router = useRouter();
 const overlay = ref(false);
-const userData = JSON.parse(localStorage.getItem("userData"))
+const userData = JSON.parse(localStorage.getItem("userData"));
+
+onMounted(() => {
+  reRouting();
+});
+
+watch(router.currentRoute, () => {
+  reRouting();
+});
 
 function logout() {
   overlay.value = false;
 
   if (userData) {
     localStorage.removeItem("userData");
-    window.location.reload()
+    window.location.reload();
   }
 }
 
-</script>
+function reRouting() {
+  const fullPath = router.currentRoute.value.fullPath;
 
+  if (userData) {
+    if (router.currentRoute.value.path === "/login") {
+      router.push("/");
+    }
+  } else {
+    if (fullPath && fullPath.startsWith("/patients/patient")) {
+      router.push("/login");
+    }
+  }
+}
+</script>
 <template>
-  <header class="header" :elevation="7">
+  <header class="header elevation-5">
     <nav class="nav">
       <div class="container">
         <router-link to="/" class="nav__logo">Mednote</router-link>
 
-        <!-- <router-link to="/login" class="nav__logo"></router-link> -->
-
         <div class="nav__logout" v-show="userData ? true : false">
-          <v-btn class="nav__logout-btn" @click="overlay = !overlay"
+          <v-btn class="nav__logout-btn" :elevation="8" @click="overlay = true"
             ><span>Chiqish</span> <LogoutIcon
           /></v-btn>
 
@@ -42,7 +60,7 @@ function logout() {
                   class="nav__logout-bar--btn nav__logout-bar--btn-cancel"
                   variant="text"
                   @click="overlay = false"
-                  ><span >Bekor qilish</span></v-btn
+                  ><span>Bekor qilish</span></v-btn
                 >
                 <v-btn
                   class="nav__logout-bar--btn nav__logout-bar--btn-ok"
