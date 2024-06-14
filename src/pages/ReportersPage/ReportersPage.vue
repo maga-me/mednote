@@ -1,11 +1,15 @@
+<!-- ParentComponent.vue -->
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useDataStore } from "../../stores/data.js";
+import CardComponent from '@/components/Cards/ReporterCard/ReporterCard.vue';
+import { useAuthDataStore } from "@/stores/login";
 
 const router = useRouter();
 const userDataInLS = ref(JSON.parse(localStorage.getItem("userData")));
 const data = useDataStore();
+const authData = useAuthDataStore()
 
 const list = ref([]);
 const passwordShow = ref(false);
@@ -14,6 +18,9 @@ const overlay = ref(false);
 function checkLoginStatus() {
   if (!userDataInLS.value) {
     router.push("/login");
+  } else if(userDataInLS.value.accessLvl == "User") {
+    router.push("/patients");
+
   }
 }
 
@@ -33,25 +40,34 @@ const firstName = ref('');
 const lastName = ref('');
 const phone = ref('');
 const password = ref('');
+const login = ref('');
 const workplace = ref('');
 
 function addRep() {
   if (firstName.value !== '' && lastName.value !== '' && phone.value !== '' && password.value !== '') {
     data.addReporter({
-    id: new Date,
+    id: data.reporterList.find((el) => el.id ),
     firstName: firstName.value,
     lastName: lastName.value,
     phone: phone.value,
     workplace: workplace.value,
     password: password.value,
-    // address: {
-    //   street: "Nimedi",
-    //   city: "Samarkand",
-    //   district: "lOdadkoas",
-    //   country: "UEA",
-    // },
     type: "reporter",
+    accessLvl: "User"
   });
+  authData.addAuthData({
+    id: data.reporterList.find((el) => el.id ),
+    firstName: firstName.value,
+    lastName: lastName.value,
+    phone: phone.value,
+    login: login.value,
+    workplace: workplace.value,
+    password: password.value,
+    type: "reporter",
+    accessLvl: "User"
+  });
+
+  localStorage.setItem('authData', JSON.stringify(authData.authDataList))
 
   overlay.value = false;
 
@@ -106,7 +122,12 @@ const lastNameRules = [
             label="Telefon nomer"
             class="reporters__inp reporters__phone"
           ></v-text-field>
-          
+
+          <v-text-field
+            v-model="login"
+            label="Login"
+            class="reporters__inp reporters__login"
+          ></v-text-field>
 
           <v-text-field
             v-model="password"
@@ -120,7 +141,6 @@ const lastNameRules = [
             class="reporters__inp reporters__workplace"
           ></v-text-field>
 
-
           <v-btn class="mt-2" type="submit" block>Submit</v-btn>
         </v-form>
       </v-overlay>
@@ -130,57 +150,16 @@ const lastNameRules = [
       </v-btn>
 
       <ul class="reporters__list">
-        <v-card
+        <CardComponent
           v-for="(user, index) in list"
           :key="index"
-          :elevation="8"
-          class="reporters__item"
-        >
-          <div class="reporters__item-desc">
-            <v-card-title class="text-overline reporters__item-title">
-              Shifokor
-
-              <p
-                class="text-green-darken-3 text-h3 font-weight-bold reporters__item-fname"
-              >
-                {{ user?.firstName }}
-              </p>
-
-              <p
-                class="text-h6 text-medium-emphasis font-weight-regular reporters__item-lname"
-              >
-                {{ user?.lastName }}
-              </p>
-            </v-card-title>
-            <v-card-text class="reporters__item-box">
-              <span
-                class="text-green-darken-3 font-weight-medium reporters__item-phone"
-              >
-                Contact: <a :href="`tel:${user?.phone}`">{{ user?.phone }}</a>
-              </span>
-
-              <span class="reporters__item-password">
-                Password:
-                <b
-                  :class="{ active: passwordShow }"
-                  @click="passwordShow = !passwordShow"
-                >
-                  {{ user?.password }}
-                </b>
-              </span>
-            </v-card-text>
-          </div>
-
-          <v-divider></v-divider>
-
-          <v-list-item
-            append-icon="mdi-chevron-right"
-            lines="two"
-            subtitle="Details and agreement"
-            link
-          ></v-list-item>
-        </v-card>
+          :user="user"
+        />
       </ul>
     </div>
   </section>
 </template>
+
+<style scoped>
+/* Add your styles here */
+</style>
