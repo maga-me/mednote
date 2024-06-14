@@ -1,10 +1,23 @@
 .patients {
-  // .patients__title
+  &__overlay {
+    display: grid !important;
+    place-items: center !important;
+  }
+
+  &__form {
+    max-width: 400px !important;
+    min-width: 320px !important;
+    width: 100% !important;
+  }
+
+  &__inp {
+  }
+
+  &__fname {
+  }
 
   &__title {
   }
-
-  // .patients__list
 
   &__list {
     display: flex;
@@ -12,48 +25,122 @@
     gap: 15px;
   }
 
-  // .patients__item
+  &__date-picker {
+    height: 100% !important;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    max-width: 400px !important;
+    min-width: 320px !important;
+    width: 100% !important;
+    margin: 5px 0 20px;
+    // padding: 20px 0 0;
 
-  &__item {
-    gap: 10px !important;
+    input {
+      height: 60px;
+      max-width: 400px !important;
+      min-width: 320px !important;
+      width: 100% !important;
+      border: 0;
+      z-index: 98;
+      font-size: 16px;
+      background: #f6f6f6;
+      transition: 300ms;
 
-    &-desc {
-      padding: 15px 20px !important;
-      
-    display: flex !important;
-    flex-direction: column !important;
-    }
-    
-      &-title {
-        padding: 0 !important;
-    }
-    
-    // .patients-fname
-    
-    &-fname {
-    }
-    
-    // .patients-lname
-    
-    &-lname {
+      &:hover {
+        background: #eee;
       }
-    
-      &-box {
-        padding: 0 !important;
-        display: flex !important;
-        justify-content: flex-end;
+    }
+
+    .dp--menu-wrapper {
+      min-height: 300px !important;
+      max-width: 300px !important;
+      width: 100% !important;
+    }
+
+    .dp__selection_preview {
+      max-width: 100px !important;
+      width: 100%;
+    }
+
+    .dp__button {
+      display: none;
+    }
+
+    .dp__input_icon {
+      // transform: translateY(-50%);
+    }
+
+    .dp__action_select,
+    .dp__action_cancel {
+      padding: 10px 10px !important;
+      border: 0;
+      height: 40px;
+      transition: 400;
+      box-shadow: 0px 3px 1px -2px var(--v-shadow-key-umbra-opacity, rgba(0, 0, 0, 0.2)),
+        0px 2px 2px 0px
+          var(--v-shadow-key-penumbra-opacity, rgba(0, 0, 0, 0.14)),
+        0px 1px 5px 0px var(--v-shadow-key-ambient-opacity, rgba(0, 0, 0, 0.12)) !important;
+    }
+
+    .dp__action_cancel {
+      color: #333;
+
+      &:hover {
+        color: #000;
       }
-    
-      &-phone {
-        padding: 0 !important;
-        a {
-            color: #333 !important;
-            
-        }
+    }
+
+    .dp__action_select {
+      &:hover {
+        background: #333;
+        opacity: 0.8;
       }
+    }
+
+    .dp__action_select,
+    .dp__overlay_cell_active,
+    .dp__active_date,
+    .dp__active_month {
+      background: #333;
+    }
+
+    .dp__menu_index {
+      min-height: 350px !important;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .dp__action_row {
+      min-height: 100% !important;
+    }
+
+    .dp__clear_icon {
+      display: none;
+    }
   }
 
-  // .patients__item-title
+  &__label {
+    // position: absolute;
+    // top: 7px !important;
+    // left: 10px;
+    // margin-left: 6px !important;
+    // font-size: 12px;
+    // color: #979797;
+    // font-weight: 400;
+    // z-index: 99;
+
+    color: #717171;
+    font-weight: 400;
+  }
+
+  &__card {
+    padding: 20px !important;
+    background: #fff !important;
+    overflow: visible !important;
+  }
 }
 .container {
 }
@@ -72,4 +159,27 @@
 .font-weight-regular {
 }
 .font-weight-medium {
+}
+
+.date-picker-wrapper {
+  position: relative;
+}
+
+.patients__label {
+  position: absolute;
+  top: 50%;
+  left: 42px;
+  transform: translateY(-50%);
+  transition: all 0.2s ease;
+  pointer-events: none;
+  z-index: 99;
+  color: #999;
+  // font-weight: 200;
+}
+
+.label-active {
+  top: 13px;
+  left: 42px;
+  font-size: 12px;
+  /* Change to desired color */
 }

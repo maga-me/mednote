@@ -1,17 +1,27 @@
+patientsPage.vue
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useDataStore } from "../../stores/data.js";
+import { uz } from "date-fns/locale";
+// import { v4 as uuidv4 } from "uuid";
+import "@vuepic/vue-datepicker/dist/main.css";
+
+import VueDatePicker from "@vuepic/vue-datepicker";
+import CardComponent from "@/components/Cards/PatientCard/PatientCard.vue";
+
 const router = useRouter();
 const userDataInLS = ref(JSON.parse(localStorage.getItem("userData")));
 const data = useDataStore();
 
 const list = ref([]);
-
+const overlay = ref(false);
 
 function checkLoginStatus() {
   if (!userDataInLS.value) {
     router.push("/login");
+  } else if (userDataInLS.value.accessLvl == "Admin") {
+    router.push("/reporters");
   }
 }
 
@@ -22,84 +32,247 @@ function getDetails() {
 }
 
 onMounted(() => {
-    userDataInLS.value = JSON.parse(localStorage.getItem("userData"));
-
+  userDataInLS.value = JSON.parse(localStorage.getItem("userData"));
   getDetails();
 });
+
+//         dateOfBirth: "2008-04-12T12:30:00Z",
+//         address: {
+//           street: "Street Temur Malik, Mirzo-ulugbek Area, 100125",
+//           city: "Toshkent",
+//           district: "Chilonzor",
+//           country: "Uzbekistan",
+//         },
+//         ambulatorCard: "N12345",
+//         type: "patient"
+
+const firstName = ref("");
+const lastName = ref("");
+const middleName = ref("");
+const dateOfBirth = ref("");
+const phone = ref("");
+const address = ref("");
+const ambulatorCard = ref("");
+
+function addPatient() {
+  if (firstName.value !== "" && lastName.value !== "" && middleName.value !== "" && dateOfBirth.value !== "" && phone.value !== "" && address.value !== "" && ambulatorCard.value !== "") {
+    data.addPatient({
+      id: 123123,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      phone: phone.value,
+      middleName: middleName.value,
+      dateOfBirth: dateOfBirth.value,
+      address: address.value,
+      ambulatorCard: ambulatorCard.value,
+      type: "patient"
+    });
+
+    overlay.value = false;
+
+    setTimeout(() => {
+      firstName.value = "";
+      lastName.value = "";
+      middleName.value = "";
+      dateOfBirth.value = "";
+      phone.value = "";
+      address.value = "";
+      ambulatorCard.value = "";
+    }, 500);
+  }
+}
+
+const firstNameRules = [
+  (value) => {
+    if (value && value.length >= 3) return true;
+    return "SSasdddddd";
+  },
+];
+
+const lastNameRules = [
+  (value) => {
+    if (/[^0-9]/.test(value)) return true;
+    return "Last name can not contain digits.";
+  },
+];
+
+// Date Picker
+
+const format = (date) => {
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  return `${day > 9 ? day : "0" + day}/${
+    month > 9 ? month : "0" + month
+  }/${year}`;
+};
+
+// const loaded = ref(false);
+// const loading = ref(false);
+
+// const onClick = () => {
+//   loading.value = true;
+
+//   setTimeout(() => {
+//     loading.value = false;
+//     loaded.value = true;
+//   }, 2000);
+// }
+
+
+// datePicker
+
+const id = `dp-${Math.random().toString(36).substring(2, 10)}`;
+const isFocused = ref(false);
+
+const handleFocus = () => {
+  isFocused.value = true;
+};
+
+const handleBlur = () => {
+  isFocused.value = false;
+};
 </script>
 
 <template>
   <section class="patients">
     <div class="container">
       <h1 class="patients__title">Bemorlar</h1>
+      <!-- <v-card class="mx-auto" color="surface-light" max-width="400">
+        <v-card-text>
+          <v-text-field
+            :loading="loading"
+            append-inner-icon="mdi-magnify"
+            density="compact"
+            label="Search templates"
+            variant="solo"
+            hide-details
+            single-line
+            @click:append-inner="onClick"
+            required
+          ></v-text-field>
+        </v-card-text>
+      </v-card> -->
+
+      <v-overlay v-model="overlay" class="patients__overlay">
+        <v-card class="patients__card">
+
+          <v-form class="patients__form" fast-fail @submit.prevent="addPatient">
+          <v-text-field
+            v-model="firstName"
+            label="Ism"
+            :rules="[() => !!firstName || `Bu joyni to'ldiring`]"
+            class="patients__inp patients__fname"
+            prepend-inner-icon="mdi-map-marker"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="lastName"
+            label="Familiya"
+            :rules="[() => !!lastName || `Bu joyni to'ldiring`]"
+            class="patients__inp patients__lname"
+            prepend-inner-icon="mdi-map-marker"
+
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="middleName"
+            label="Otasining ismi"
+            :rules="[() => !!middleName || `Bu joyni to'ldiring`]"
+            class="patients__inp patients__mname"
+            prepend-inner-icon="mdi-map-marker"
+            required
+          ></v-text-field>
+
+          <!-- <v-card for="dp" :elevation="1" class="patients__card"> -->
+
+            <div class="date-picker-wrapper">
+    <label 
+      :for="id" 
+      class="patients__label" 
+      :class="{ 'label-active': isFocused || dateOfBirth }"
+    >
+      Tug'ilgan kun, oy, yil
+    </label>
+    <VueDatePicker
+      v-model="dateOfBirth"
+      :format="format"
+      :format-locale="uz"
+      class="patients__date-picker"
+      cancel-text="Bekor qilish"
+      select-text="Saqlash"
+      :id="id"
+      required
+      @focus="handleFocus"
+      @blur="handleBlur"
+      :rules="[() => !!dateOfBirth || `Bu joyni to'ldiring`]"
+    ></VueDatePicker>
+  </div>
+          <!-- </v-card> -->
+
+          <v-text-field
+            v-model="address"
+            label="Manzil"
+            class="patients__inp patients__phone"
+            prepend-inner-icon="mdi-map-marker"
+            required
+            :rules="[() => !!address || `Bu joyni to'ldiring`]"
+          ></v-text-field>
+
+          <v-text-field
+            v-model="phone"
+            label="Telefon nomer"
+            class="patients__inp patients__phone"
+            prepend-inner-icon="mdi-map-marker"
+            required
+            :rules="[() => !!phone || `Bu joyni to'ldiring`]"
+          ></v-text-field>
+
+          <v-text-field
+            v-model="ambulatorCard"
+            label="Ambulator raqam"
+            class="patients__inp patients__phone"
+            prepend-inner-icon="mdi-map-marker"
+            required
+            :rules="[() => !!ambulatorCard || `Bu joyni to'ldiring`]"
+          ></v-text-field>
+
+          <v-btn class="mt-2" type="submit" block>Bemorni qo'shish</v-btn>
+        </v-form>
+
+        </v-card>
+      </v-overlay>
+
+      <v-btn
+        @click="overlay = true"
+        class="mb-2"
+        :elevation="8"
+        color="success"
+      >
+        Bemor qo'shish
+      </v-btn>
 
       <ul class="patients__list">
-
-        <v-card
+        <CardComponent
           v-for="(user, index) in list"
           :key="index"
-          :elevation="8"
-          class="patients__item"
-        >
-         <div class="patients__item-desc">
-          <v-card-title class="text-overline patients__item-title">
-            Bemor
-
-            <p
-              class="text-green-darken-3 text-h3 font-weight-bold patients__item-fname"
-            >
-              {{ user?.firstName }}
-            </p>
-
-            <p
-              class="text-h6 text-medium-emphasis font-weight-regular patients__item-lname"
-            >
-              {{ user?.lastName }}
-            </p>
-          </v-card-title>
-          <v-card-text class="patients__item-box">
-            <span class="text-green-darken-3 font-weight-medium patients__item-phone">
-             Contact: <a :href="`tel:${user?.phone}`">{{ user?.phone }}</a>
-            </span>
-
-            
-          </v-card-text>
-
-         </div>
-<!-- 
-         <v-card-title class="text-overline patients__item-title">
-            Bemor
-
-            <div
-              class="text-green-darken-3 text-h3 font-weight-bold patients__item-fname"
-            >
-              {{ user?.firstName }}
-            </div>
-
-            <div
-              class="text-h6 text-medium-emphasis font-weight-regular patients__item-lname"
-            >
-              {{ user?.lastName }}
-            </div>
-          </v-card-title>
-          <v-card-text class="patients__item-box">
-            <span class="text-green-darken-3 font-weight-medium patients__item-phone">
-              {{ user?.phone }}
-            </span>
-
-            
-          </v-card-text> -->
-
-          <v-divider></v-divider>
-
-          <v-list-item
-            append-icon="mdi-chevron-right"
-            lines="two"
-            subtitle="To'liq ma'lumot uchun"
-            link
-          ></v-list-item>
-        </v-card>
+          :user="user"
+        />
       </ul>
     </div>
   </section>
 </template>
+
+<style scoped>
+#dp {
+  z-index: 999;
+  background: #fff;
+}
+
+.patients__form {
+  z-index: 998;
+}
+</style>
