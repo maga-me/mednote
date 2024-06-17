@@ -104,6 +104,13 @@ const lastNameRules = [
   },
 ];
 
+const numInputRules = [
+  (value) => {
+    if (!isNaN(value)) return true;
+    return "Faqat raqam kiriting"
+  }
+]
+
 // Date Picker
 
 const format = (date) => {
@@ -163,14 +170,14 @@ const handleBlur = () => {
       </v-card> -->
 
       <v-overlay v-model="overlay" class="patients__overlay">
-        <v-card class="patients__overlay-card">
+        <v-card class="patients__overlay-card" elevation="7">
           <v-form class="patients__form" fast-fail @submit.prevent="addPatient">
             <v-text-field
               v-model="firstName"
               label="Ism"
               :rules="[() => !!firstName || `Bu joyni to'ldiring`]"
               class="patients__inp patients__fname"
-              prepend-inner-icon="mdi-map-marker"
+              prepend-inner-icon="mdi-pencil"
               required
             ></v-text-field>
 
@@ -179,7 +186,7 @@ const handleBlur = () => {
               label="Familiya"
               :rules="[() => !!lastName || `Bu joyni to'ldiring`]"
               class="patients__inp patients__lname"
-              prepend-inner-icon="mdi-map-marker"
+              prepend-inner-icon="mdi-pencil"
               required
             ></v-text-field>
 
@@ -188,7 +195,7 @@ const handleBlur = () => {
               label="Otasining ismi"
               :rules="[() => !!middleName || `Bu joyni to'ldiring`]"
               class="patients__inp patients__mname"
-              prepend-inner-icon="mdi-map-marker"
+              prepend-inner-icon="mdi-pencil"
               required
             ></v-text-field>
 
@@ -225,24 +232,40 @@ const handleBlur = () => {
             ></v-text-field>
 
             <v-text-field
-              v-model="phone"
-              label="Telefon nomer"
-              class="patients__inp patients__phone"
-              prepend-inner-icon="mdi-map-marker"
-              required
-              :rules="[() => !!phone || `Bu joyni to'ldiring`]"
-            ></v-text-field>
+  v-model="phone"
+  label="Telefon nomer"
+  class="patients__inp patients__phone"
+  required
+  :rules="[() => !!phone || `Bu joyni to'ldiring`, ...numInputRules]"
+>
+  <template v-slot:prepend-inner>
+    <img
+      src="@/assets/images/call.svg"
+      alt="icon"
+      class="custom-icon"
+    />
+  </template>
+</v-text-field>
 
-            <v-text-field
-              v-model="ambulatorCard"
-              label="Ambulator raqam"
-              class="patients__inp patients__phone"
-              prepend-inner-icon="mdi-map-marker"
-              required
-              :rules="[() => !!ambulatorCard || `Bu joyni to'ldiring`]"
-            ></v-text-field>
+<v-text-field
+  v-model="ambulatorCard"
+  label="Ambulator raqam"
+  class="patients__inp patients__phone"
+  required
+  :rules="[() => !!ambulatorCard || `Bu joyni to'ldiring`, ...numInputRules]"
+>
+  <template v-slot:prepend-inner>
+    <img
+      src="@/assets/images/num3.svg"
+      alt="icon"
+      class="custom-icon"
+    />
+  </template>
+</v-text-field>
 
-            <v-btn class="mt-2 elevation-3" color="success" type="submit" block>Bemorni qo'shish</v-btn>
+            <v-btn class="mt-2 elevation-3" color="success" type="submit" block
+              >Bemorni qo'shish</v-btn
+            >
           </v-form>
         </v-card>
       </v-overlay>

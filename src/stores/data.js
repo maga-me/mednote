@@ -1,7 +1,7 @@
-import { ref, computed } from 'vue';
-import { defineStore } from 'pinia';
+import { ref, computed } from "vue";
+import { defineStore } from "pinia";
 
-export const useDataStore = defineStore('data', {
+export const useDataStore = defineStore("data", {
   state: () => ({
     patientList: [
       {
@@ -13,7 +13,7 @@ export const useDataStore = defineStore('data', {
         address: "Tashkent",
         phone: "+998976554321",
         ambulatorCard: "N12345",
-        type: "patient"
+        type: "patient",
       },
       {
         id: 2,
@@ -24,7 +24,7 @@ export const useDataStore = defineStore('data', {
         address: "Tashkent",
         phone: "+998976554321",
         ambulatorCard: "N12345",
-        type: "patient"
+        type: "patient",
       },
       {
         id: 3,
@@ -35,7 +35,7 @@ export const useDataStore = defineStore('data', {
         address: "Tashkent",
         phone: "+998976554321",
         ambulatorCard: "N12345",
-        type: "patient"
+        type: "patient",
       },
       {
         id: 4,
@@ -46,7 +46,7 @@ export const useDataStore = defineStore('data', {
         address: "Tashkent",
         phone: "+998976554321",
         ambulatorCard: "N12345",
-        type: "patient"
+        type: "patient",
       },
     ],
     reporterList: [
@@ -63,7 +63,7 @@ export const useDataStore = defineStore('data', {
           district: "Chilonzor",
           country: "Uzbekistan",
         },
-        type: "reporter"
+        type: "reporter",
       },
       {
         id: 2,
@@ -78,7 +78,7 @@ export const useDataStore = defineStore('data', {
           district: "Chilonzor",
           country: "Uzbekistan",
         },
-        type: "reporter"
+        type: "reporter",
       },
       {
         id: 3,
@@ -93,7 +93,7 @@ export const useDataStore = defineStore('data', {
           district: "Chilonzor",
           country: "Uzbekistan",
         },
-        type: "reporter"
+        type: "reporter",
       },
       {
         id: 4,
@@ -108,10 +108,138 @@ export const useDataStore = defineStore('data', {
           district: "Chilonzor",
           country: "Uzbekistan",
         },
-        type: "reporter"
-      }
+        type: "reporter",
+      },
     ],
-    patientData: {}
+    patientData: {},
+    patientDetails: [
+      {
+        id: 1,
+        // firstName: "test",
+        // lastName: "test",
+        // middleName: "test",
+        // dateOfBirth: 2020,
+        // address: "Samarkand",
+        // phone: "+998976554321",
+        // ambulatorCard: "N12345",
+        reports: [
+          {
+            id: 1,
+            date: "10/06/2024",
+            returnDate: "17/06/2024",
+            link: "",
+          },
+          {
+            id: 2,
+            date: "10/06/2024",
+            returnDate: "17/06/2024",
+            link: "",
+          },
+        ],
+      },
+      {
+        id: 2,
+        // firstName: "test",
+        // lastName: "test",
+        // middleName: "test",
+        // dateOfBirth: 2020,
+        // address: "Samarkand",
+        // phone: "+998976554321",
+        // ambulatorCard: "N12345",
+        reports: [
+          {
+            id: 1,
+            date: "10/06/2024",
+            returnDate: "17/06/2024",
+            link: "",
+          },
+          {
+            id: 2,
+            date: "10/06/2024",
+            returnDate: "17/06/2024",
+            link: "",
+          },
+          {
+            id: 3,
+            date: "10/06/2024",
+            returnDate: "17/06/2024",
+            link: "",
+          },
+          {
+            id: 4,
+            date: "10/06/2024",
+            returnDate: "17/06/2024",
+            link: "",
+          },
+          {
+            id: 5,
+            date: "10/06/2024",
+            returnDate: "17/06/2024",
+            link: "",
+          },
+          {
+            id: 6,
+            date: "10/06/2024",
+            returnDate: "17/06/2024",
+            link: "",
+          },
+          {
+            id: 7,
+            date: "10/06/2024",
+            returnDate: "17/06/2024",
+            link: "",
+          },
+        ],
+      },
+      {
+        id: 3,
+        // firstName: "test",
+        // lastName: "test",
+        // middleName: "test",
+        // dateOfBirth: 2020,
+        // address: "Samarkand",
+        // phone: "+998976554321",
+        // ambulatorCard: "N12345",
+        reports: [
+          {
+            id: 1,
+            date: "10/06/2024",
+            returnDate: "17/06/2024",
+            link: "",
+          },
+        ],
+      },
+      {
+        id: 4,
+        // firstName: "test",
+        // lastName: "test",
+        // middleName: "test",
+        // dateOfBirth: 2020,
+        // address: "Samarkand",
+        // phone: "+998976554321",
+        // ambulatorCard: "N12345",
+        reports: [
+          {
+            id: 1,
+            date: "10/06/2024",
+            returnDate: "17/06/2024",
+            link: '',
+          },
+          {
+            id: 2,
+            date: "10/06/2024",
+            returnDate: "17/06/2024",
+            link: '',
+          },
+          {
+            id: 3,
+            date: "10/06/2024",
+            returnDate: "17/06/2024",
+            link: '',
+          },
+    ],
+      },
+    ],
   }),
   getters: {
     totalPatients: (state) => state.patientList.length,
@@ -128,15 +256,19 @@ export const useDataStore = defineStore('data', {
       this.reporterList.unshift(reporter);
     },
     findPatientById(id) {
-      this.patientData = this.patientList.find((patient) => patient.id === Number(id));
+      this.patientData = this.patientList.find(
+        (patient) => patient.id === Number(id)
+      );
     },
     patchPatient(updatedPatient) {
       this.patientData = updatedPatient;
 
-      const index = this.patientList.findIndex((patient) => patient.id === updatedPatient.id);
+      const index = this.patientList.findIndex(
+        (patient) => patient.id === updatedPatient.id
+      );
       if (index !== -1) {
         this.patientList[index] = updatedPatient;
       }
     },
-  }
+  },
 });

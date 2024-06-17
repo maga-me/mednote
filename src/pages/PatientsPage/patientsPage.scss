@@ -31,6 +31,7 @@
     min-width: 320px !important;
     width: 100% !important;
     margin: 5px 0 20px;
+    color: #848484;
 
     &_wrapper {
       position: relative;
@@ -44,7 +45,7 @@
       transition: all 0.2s ease;
       pointer-events: none;
       z-index: 99;
-      color: #999;
+      color: #848484;
 
       &.label-active {
         top: 13px;
@@ -70,6 +71,15 @@
     }
 
     .dp {
+
+      &__today {
+      border: 1px solid #333;
+      }
+
+      &--future {
+        // opacity: 0.3 !important;
+        // display: none;
+      }
       &--menu-wrapper {
         min-height: 300px !important;
         max-width: 300px !important;
@@ -99,16 +109,16 @@
       }
 
       &__action_cancel {
-        color: #333;
+        color: #333 !important;
 
         &:hover {
-          color: #000;
+          color: #000 !important;
         }
       }
 
       &__action_select {
+        background: #333 !important;
         &:hover {
-          background: #333;
           opacity: 0.8;
         }
       }
@@ -117,7 +127,7 @@
       &__overlay_cell_active,
       &__active_date,
       &__active_month {
-        background: #333;
+        background: #333 !important;
       }
 
       &__menu_index {
