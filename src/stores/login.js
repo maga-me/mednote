@@ -11,7 +11,7 @@ export const useAuthDataStore = defineStore("authData", {
         surname: "Salohiddinov",
         accessLvl: "User",
         authId: 1,
-        UserId: 1,
+        userId: 1,
       },
       {
         login: "asd",
@@ -20,7 +20,7 @@ export const useAuthDataStore = defineStore("authData", {
         surname: "asd",
         accessLvl: "User",
         authId: 2,
-        UserId: 2,
+        userId: 2,
       },
       {
         login: "admin",
@@ -38,7 +38,7 @@ export const useAuthDataStore = defineStore("authData", {
         surname: "Bentley",
         accessLvl: "User",
         authId: 4,
-        UserId: 3,
+        userId: 3,
       },
       {
         login: "admin2",
@@ -65,7 +65,7 @@ export const useAuthDataStore = defineStore("authData", {
         surname: "Salohiddinov",
         accessLvl: "User",
         authId: 7,
-        UserId: 5,
+        userId: 5,
       },
       {
         login: "aaa",
@@ -74,7 +74,7 @@ export const useAuthDataStore = defineStore("authData", {
         surname: "BBB",
         accessLvl: "User",
         authId: 8,
-        UserId: 6,
+        userId: 6,
       },
     ],
   }),

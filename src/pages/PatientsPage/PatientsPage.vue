@@ -1,10 +1,8 @@
-patientsPage.vue
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useDataStore } from "../../stores/data.js";
 import { uz } from "date-fns/locale";
-// import { v4 as uuidv4 } from "uuid";
 import "@vuepic/vue-datepicker/dist/main.css";
 
 import VueDatePicker from "@vuepic/vue-datepicker";
@@ -25,26 +23,20 @@ function checkLoginStatus() {
   }
 }
 
-checkLoginStatus();
-
-function getDetails() {
-  list.value = data.patientList;
-}
-
 onMounted(() => {
   userDataInLS.value = JSON.parse(localStorage.getItem("userData"));
+  checkLoginStatus();
   getDetails();
 });
 
-//         dateOfBirth: "2008-04-12T12:30:00Z",
-//         address: {
-//           street: "Street Temur Malik, Mirzo-ulugbek Area, 100125",
-//           city: "Toshkent",
-//           district: "Chilonzor",
-//           country: "Uzbekistan",
-//         },
-//         ambulatorCard: "N12345",
-//         type: "patient"
+watch(userDataInLS, () => {
+  checkLoginStatus();
+  getDetails();
+});
+
+function getDetails() {
+  list.value = data.patientList.filter(el => el.doctorId === userDataInLS.value?.userId);
+}
 
 const firstName = ref("");
 const lastName = ref("");
@@ -65,7 +57,7 @@ function addPatient() {
     ambulatorCard.value !== ""
   ) {
     data.addPatient({
-      id: 123123,
+      id: Date.now(),
       firstName: firstName.value,
       lastName: lastName.value,
       phone: phone.value,
@@ -74,8 +66,10 @@ function addPatient() {
       address: address.value,
       ambulatorCard: ambulatorCard.value,
       type: "patient",
+      doctorId: userDataInLS.value?.userId,
     });
-
+    getDetails()
+    console.log(userDataInLS.value?.userId);
     overlay.value = false;
 
     setTimeout(() => {
@@ -90,26 +84,11 @@ function addPatient() {
   }
 }
 
-const firstNameRules = [
-  (value) => {
-    if (value && value.length >= 3) return true;
-    return "SSasdddddd";
-  },
-];
-
-const lastNameRules = [
-  (value) => {
-    if (/[^0-9]/.test(value)) return true;
-    return "Last name can not contain digits.";
-  },
-];
+const requiredRule = (value) => value ? true : `Bu joyni to'ldiring`;
 
 const numInputRules = [
-  (value) => {
-    if (!isNaN(value)) return true;
-    return "Faqat raqam kiriting"
-  }
-]
+  (value) => !isNaN(value) ? true : "Faqat raqam kiriting",
+];
 
 // Date Picker
 
@@ -118,24 +97,8 @@ const format = (date) => {
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
 
-  return `${day > 9 ? day : "0" + day}.${
-    month > 9 ? month : "0" + month
-  }.${year}`;
+  return `${day > 9 ? day : "0" + day}.${month > 9 ? month : "0" + month}.${year}`;
 };
-
-// const loaded = ref(false);
-// const loading = ref(false);
-
-// const onClick = () => {
-//   loading.value = true;
-
-//   setTimeout(() => {
-//     loading.value = false;
-//     loaded.value = true;
-//   }, 2000);
-// }
-
-// datePicker
 
 const id = `dp-${Math.random().toString(36).substring(2, 10)}`;
 const isFocused = ref(false);
@@ -150,24 +113,9 @@ const handleBlur = () => {
 </script>
 
 <template>
-  <section class="patients">
+  <section class="patients" v-if="userDataInLS">
     <div class="container">
       <h1 class="patients__title">Bemorlar</h1>
-      <!-- <v-card class="mx-auto" color="surface-light" max-width="400">
-        <v-card-text>
-          <v-text-field
-            :loading="loading"
-            append-inner-icon="mdi-magnify"
-            density="compact"
-            label="Search templates"
-            variant="solo"
-            hide-details
-            single-line
-            @click:append-inner="onClick"
-            required
-          ></v-text-field>
-        </v-card-text>
-      </v-card> -->
 
       <v-overlay v-model="overlay" class="patients__overlay">
         <v-card class="patients__overlay-card" elevation="7">
@@ -175,7 +123,7 @@ const handleBlur = () => {
             <v-text-field
               v-model="firstName"
               label="Ism"
-              :rules="[() => !!firstName || `Bu joyni to'ldiring`]"
+              :rules="[requiredRule]"
               class="patients__inp patients__fname"
               prepend-inner-icon="mdi-pencil"
               required
@@ -184,7 +132,7 @@ const handleBlur = () => {
             <v-text-field
               v-model="lastName"
               label="Familiya"
-              :rules="[() => !!lastName || `Bu joyni to'ldiring`]"
+              :rules="[requiredRule]"
               class="patients__inp patients__lname"
               prepend-inner-icon="mdi-pencil"
               required
@@ -193,7 +141,7 @@ const handleBlur = () => {
             <v-text-field
               v-model="middleName"
               label="Otasining ismi"
-              :rules="[() => !!middleName || `Bu joyni to'ldiring`]"
+              :rules="[requiredRule]"
               class="patients__inp patients__mname"
               prepend-inner-icon="mdi-pencil"
               required
@@ -218,54 +166,54 @@ const handleBlur = () => {
                 required
                 @focus="handleFocus"
                 @blur="handleBlur"
-                :rules="[() => !!dateOfBirth || `Bu joyni to'ldiring`]"
+                :rules="[requiredRule]"
               ></VueDatePicker>
             </div>
 
             <v-text-field
               v-model="address"
               label="Manzil"
-              class="patients__inp patients__phone"
+              :rules="[requiredRule]"
+              class="patients__inp patients__address"
               prepend-inner-icon="mdi-map-marker"
               required
-              :rules="[() => !!address || `Bu joyni to'ldiring`]"
             ></v-text-field>
 
             <v-text-field
-  v-model="phone"
-  label="Telefon nomer"
-  class="patients__inp patients__phone"
-  required
-  :rules="[() => !!phone || `Bu joyni to'ldiring`, ...numInputRules]"
->
-  <template v-slot:prepend-inner>
-    <img
-      src="@/assets/images/call.svg"
-      alt="icon"
-      class="custom-icon"
-    />
-  </template>
-</v-text-field>
-
-<v-text-field
-  v-model="ambulatorCard"
-  label="Ambulator raqam"
-  class="patients__inp patients__phone"
-  required
-  :rules="[() => !!ambulatorCard || `Bu joyni to'ldiring`, ...numInputRules]"
->
-  <template v-slot:prepend-inner>
-    <img
-      src="@/assets/images/num3.svg"
-      alt="icon"
-      class="custom-icon"
-    />
-  </template>
-</v-text-field>
-
-            <v-btn class="mt-2 elevation-3" color="success" type="submit" block
-              >Bemorni qo'shish</v-btn
+              v-model="phone"
+              label="Telefon nomer"
+              :rules="[requiredRule, ...numInputRules]"
+              class="patients__inp patients__phone"
+              required
             >
+              <template v-slot:prepend-inner>
+                <img
+                  src="@/assets/images/call.svg"
+                  alt="icon"
+                  class="custom-icon"
+                />
+              </template>
+            </v-text-field>
+
+            <v-text-field
+              v-model="ambulatorCard"
+              label="Ambulator raqam"
+              :rules="[requiredRule, ...numInputRules]"
+              class="patients__inp patients__ambulatorCard"
+              required
+            >
+              <template v-slot:prepend-inner>
+                <img
+                  src="@/assets/images/num3.svg"
+                  alt="icon"
+                  class="custom-icon"
+                />
+              </template>
+            </v-text-field>
+
+            <v-btn class="mt-2 elevation-3" color="success" type="submit" block>
+              Bemorni qo'shish
+            </v-btn>
           </v-form>
         </v-card>
       </v-overlay>

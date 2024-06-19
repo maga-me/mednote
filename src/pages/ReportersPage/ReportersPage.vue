@@ -20,7 +20,6 @@ function checkLoginStatus() {
     router.push("/login");
   } else if(userDataInLS.value.accessLvl == "User") {
     router.push("/patients");
-
   }
 }
 
@@ -159,7 +158,3 @@ const lastNameRules = [
     </div>
   </section>
 </template>
-
-<style scoped>
-/* Add your styles here */
-</style>

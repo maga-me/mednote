@@ -143,11 +143,10 @@ const reports = computed(() => {
 
 <template>
   <section v-if="load">Loading...</section>
-  <section class="patient" v-else>
+  <section class="patient" v-show="dataStore ? true : false" v-else>
     <div class="container">
       {{ patient }}
       <br />
-      {{ dataStore.patientList }}
       <h1 class="patient__title">Bemorning sahifasi - {{ firstName }}</h1>
 
       <v-sheet class="patient__edit-sheet">
