@@ -1,37 +1,36 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { useAuthDataStore } from '@/stores/login'; // Ensure the correct path
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthDataStore } from "@/stores/login"; 
 
 const router = useRouter();
 const authDataStore = useAuthDataStore();
 
 const form = ref(false);
-const email = ref('');
-const password = ref('');
+const email = ref("");
+const password = ref("");
 const loading = ref(false);
-const loginMessage = ref('');
+const loginMessage = ref("");
 const visible = ref(false);
 
-const requiredLogin = (v) => !!v || 'Loginni kiriting'; // Clear and concise message
-const requiredPassword = (v) => !!v || 'Parolni kiriting'; // Clear and concise message
+const requiredLogin = (v) => !!v || "Loginni kiriting";
+const requiredPassword = (v) => !!v || "Parolni kiriting"; 
 
 const onSubmit = async () => {
   if (!form.value) return;
 
   loading.value = true;
 
-  // Simulate login logic (replace with actual API call)
   setTimeout(() => {
     loading.value = false;
-    const user = findUser(email.value, password.value); // Call the findUser function
+    const user = findUser(email.value, password.value);
 
     if (user) {
       loginMessage.value = `Welcome back, ${user.name} ${user.surname}`;
-      localStorage.setItem('userData', JSON.stringify(user));
+      localStorage.setItem("userData", JSON.stringify(user));
       location.reload();
     } else {
-      loginMessage.value = 'Login or password is incorrect.';
+      loginMessage.value = "Login or password is incorrect.";
     }
   }, 2000);
 };
@@ -45,11 +44,11 @@ function findUser(login, password) {
   return null;
 }
 
-const userDataInLS = JSON.parse(localStorage.getItem('userData'));
+const userDataInLS = JSON.parse(localStorage.getItem("userData"));
 
 function checkLoginStatus() {
   if (userDataInLS) {
-    router.push('/');
+    router.push("/");
   }
 }
 
@@ -61,7 +60,11 @@ onMounted(() => {
 <template>
   <section class="login" v-show="!userDataInLS">
     <v-sheet class="login__box">
-      <v-card :elevation="5" class="mx-auto px-6 py-8 login__card" max-width="344">
+      <v-card
+        :elevation="5"
+        class="mx-auto px-6 py-8 login__card"
+        max-width="344"
+      >
         <v-card-title class="login__title">Kirish</v-card-title>
         <v-form v-model="form" class="login__form" @submit.prevent="onSubmit">
           <v-text-field
@@ -98,7 +101,9 @@ onMounted(() => {
           >
             Tizimga kiring
           </v-btn>
-          <div v-if="loginMessage" class="login__message">{{ loginMessage }}</div>
+          <div v-if="loginMessage" class="login__message">
+            {{ loginMessage }}
+          </div>
         </v-form>
       </v-card>
     </v-sheet>
