@@ -1,10 +1,10 @@
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
-import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css';
-import { uz } from 'date-fns/locale';
-import { useRoute } from 'vue-router';
-import { useDataStore } from '../../../stores/data.js';
+import { ref, onMounted, computed, watch } from "vue";
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
+import { uz } from "date-fns/locale";
+import { useRoute } from "vue-router";
+import { useDataStore } from "../../../stores/data.js";
 
 const router = useRoute();
 const dataStore = useDataStore();
@@ -14,17 +14,17 @@ const edit = ref(false);
 const submitLoading = ref(false);
 const submitBool = ref(false);
 
-const firstName = ref('');
-const lastName = ref('');
-const middleName = ref('');
-const dateOfBirth = ref('');
-const address = ref('');
-const phone = ref('');
-const ambulatorCard = ref('');
+const firstName = ref("");
+const lastName = ref("");
+const middleName = ref("");
+const dateOfBirth = ref("");
+const address = ref("");
+const phone = ref("");
+const ambulatorCard = ref("");
 
 onMounted(() => {
   const fullPath = router.fullPath;
-  const segments = fullPath.split('/');
+  const segments = fullPath.split("/");
   const id = segments[segments.length - 1];
   dataStore.findPatientById(id);
 });
@@ -36,25 +36,25 @@ function loading() {
 }
 
 function resetPatientData() {
-  firstName.value = patient.value?.firstName || '';
-  lastName.value = patient.value?.lastName || '';
-  middleName.value = patient.value?.middleName || '';
-  dateOfBirth.value = patient.value?.dateOfBirth || '';
-  address.value = patient.value?.address || '';
-  phone.value = patient.value?.phone || '';
-  ambulatorCard.value = patient.value?.ambulatorCard || '';
+  firstName.value = patient.value?.firstName || "";
+  lastName.value = patient.value?.lastName || "";
+  middleName.value = patient.value?.middleName || "";
+  dateOfBirth.value = patient.value?.dateOfBirth || "";
+  address.value = patient.value?.address || "";
+  phone.value = patient.value?.phone || "";
+  ambulatorCard.value = patient.value?.ambulatorCard || "";
 }
 
 function toggleEdit(type, func) {
-  if (type === 'edit') {
+  if (type === "edit") {
     edit.value = true;
-  } else if (type === 'cancel') {
+  } else if (type === "cancel") {
     edit.value = false;
     resetPatientData();
-    submitBool.value = false; // Reset submitBool on cancel
-  } else if (type === 'cancel' && func === 'submitted') {
+    submitBool.value = false;
+  } else if (type === "cancel" && func === "submitted") {
     edit.value = false;
-    submitBool.value = false; // Reset submitBool after submission
+    submitBool.value = false;
   }
 }
 
@@ -63,35 +63,34 @@ const format = (date) => {
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
 
-  return `${day > 9 ? day : '0' + day}.${
-    month > 9 ? month : '0' + month
+  return `${day > 9 ? day : "0" + day}.${
+    month > 9 ? month : "0" + month
   }.${year}`;
 };
 
 function submit() {
   if (
     submitBool.value &&
-    firstName.value !== '' &&
-    lastName.value !== '' &&
-    middleName.value !== '' &&
-    dateOfBirth.value !== '' &&
-    phone.value !== '' &&
-    address.value !== '' &&
-    ambulatorCard.value !== ''
+    firstName.value !== "" &&
+    lastName.value !== "" &&
+    middleName.value !== "" &&
+    dateOfBirth.value !== "" &&
+    phone.value !== "" &&
+    address.value !== "" &&
+    ambulatorCard.value !== ""
   ) {
     submitLoading.value = true;
-    dataStore
-      .patchPatient({
-        id: patient.value.id,
-        firstName: firstName.value,
-        lastName: lastName.value,
-        middleName: middleName.value,
-        dateOfBirth: dateOfBirth.value,
-        address: address.value,
-        phone: phone.value,
-        ambulatorCard: ambulatorCard.value,
-      });
-    toggleEdit('cancel', 'submitted');
+    dataStore.patchPatient({
+      id: patient.value.id,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      middleName: middleName.value,
+      dateOfBirth: dateOfBirth.value,
+      address: address.value,
+      phone: phone.value,
+      ambulatorCard: ambulatorCard.value,
+    });
+    toggleEdit("cancel", "submitted");
 
     setTimeout(() => {
       submitLoading.value = false;
@@ -110,12 +109,11 @@ function sameChecker() {
     ambulatorCard.value !== patient.value.ambulatorCard;
 }
 
-// Watch for changes in patient data and input fields
 watch(patient, (newVal) => {
   if (newVal) {
     loading();
     resetPatientData();
-    sameChecker(); // Initial check if values are different
+    sameChecker();
   }
 });
 
@@ -139,6 +137,31 @@ const reports = computed(() => {
   );
   return patientDetail ? patientDetail.reports : [];
 });
+
+const getNextId = () => {
+  const lastReport = reports.value[reports.value.length - 1];
+  return lastReport ? lastReport.id + 1 : 1;
+};
+
+// Function to add a new report
+// const addReport = () => {
+//   const newReport = { id: newId, name: `Report ${newId}` };
+//   reports.value.push(newReport);
+// };
+
+function addReport() {
+  const newId = getNextId();
+  const getDate = new Date;
+  console.log(getDate);
+  const newReport = {
+    id: newId,
+    date: format(getDate),
+    returnDate: "17/06/2024",
+    link: "https://maga-sv.netlify.app",
+  };
+
+  dataStore.patchPatientReports(patient.id, newReport);
+}
 </script>
 
 <template>
@@ -156,11 +179,11 @@ const reports = computed(() => {
           :variant="edit == false ? 'tonal' : 'border'"
           @click="toggleEdit(edit == false ? 'edit' : 'cancel')"
         >
-          {{ edit == false ? 'Tahrirlash' : 'Bekor qilish' }}
+          {{ edit == false ? "Tahrirlash" : "Bekor qilish" }}
         </v-btn>
       </v-sheet>
 
-      <v-form @submit.prevent="submit" class="patient__form`">
+      <v-form @submit.prevent="submit" class="patient__form">
         <v-row>
           <v-col cols="12" sm="6">
             <v-text-field
@@ -198,7 +221,9 @@ const reports = computed(() => {
 
           <v-col cols="12" sm="6" class="patient__col">
             <v-card for="dp" :elevation="2" class="patient__card">
-              <label for="dp" class="patient__label">Tug'ilgan kun, oy, yil</label>
+              <label for="dp" class="patient__label"
+                >Tug'ilgan kun, oy, yil</label
+              >
               <VueDatePicker
                 v-model="dateOfBirth"
                 :format="format"
@@ -262,12 +287,18 @@ const reports = computed(() => {
       <div class="patient__reports">
         <h2 class="patient__reports-title">Hisobotlar</h2>
 
-        <v-table fixed-header>
+        <v-sheet class="patient__reports-sheet">
+          <v-btn class="patient__reports-btn" @click="addReport" color="success"
+            >Hisobot qoshish</v-btn
+          >
+        </v-sheet>
+
+        <v-table class="patient__reports-table">
           <thead>
             <tr>
-              <th class="text-left">Date</th>
-              <th class="text-left">Return Date</th>
-              <th class="text-left">Link</th>
+              <th class="text-left">Sana</th>
+              <th class="text-left">Qaytish sanasi</th>
+              <th class="text-left">To'liq Ma'lumot</th>
             </tr>
           </thead>
           <tbody>

@@ -21,7 +21,7 @@ export const useDataStore = defineStore("data", {
         firstName: "O'Doherty",
         lastName: "Kathleen",
         middleName: "Riggs",
-        dateOfBirth: "2003-06-13T12:30:00Z",
+        dateOfBirth: "2003.06.13T12:30:00Z",
         address: "Tashkent",
         phone: "+998976554321",
         ambulatorCard: "N12345",
@@ -153,14 +153,14 @@ export const useDataStore = defineStore("data", {
         reports: [
           {
             id: 1,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
           {
             id: 2,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
         ],
@@ -177,44 +177,44 @@ export const useDataStore = defineStore("data", {
         reports: [
           {
             id: 1,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
           {
             id: 2,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
           {
             id: 3,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
           {
             id: 4,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
           {
             id: 5,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
           {
             id: 6,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
           {
             id: 7,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
         ],
@@ -231,8 +231,8 @@ export const useDataStore = defineStore("data", {
         reports: [
           {
             id: 1,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
         ],
@@ -249,20 +249,20 @@ export const useDataStore = defineStore("data", {
         reports: [
           {
             id: 1,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
           {
             id: 2,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
           {
             id: 3,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
         ],
@@ -279,20 +279,20 @@ export const useDataStore = defineStore("data", {
         reports: [
           {
             id: 1,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
           {
             id: 2,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
           {
             id: 3,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
         ],
@@ -309,20 +309,20 @@ export const useDataStore = defineStore("data", {
         reports: [
           {
             id: 1,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
           {
             id: 2,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
           {
             id: 3,
-            date: "10/06/2024",
-            returnDate: "17/06/2024",
+            date: "10.06.2024",
+            returnDate: "17.06.2024",
             link: "",
           },
         ],
@@ -358,5 +358,13 @@ export const useDataStore = defineStore("data", {
         this.patientList[index] = updatedPatient;
       }
     },
+    patchPatientReports(id, newReport) {
+      const patient = this.patientDetails.find((patient) => patient.id === 4)
+      setTimeout(() => {
+        if (patient) {
+          patient.reports.push(newReport)
+        }
+      }, 300);
+    }
   },
 });
