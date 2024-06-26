@@ -407,7 +407,8 @@ export const useDataStore = defineStore("data", {
       }
     },
     patchPatientReports(id, newReport) {
-      const patient = this.patientDetails.find((patient) => patient.id === 4)
+      const patient = this.patientDetails.find((patient) => patient.id === Number(id))
+      console.log(id);
       setTimeout(() => {
         if (patient) {
           patient.reports.push(newReport)

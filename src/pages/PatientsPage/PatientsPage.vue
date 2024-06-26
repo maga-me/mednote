@@ -115,7 +115,15 @@ const handleBlur = () => {
 <template>
   <section class="patients" v-if="userDataInLS">
     <div class="container">
-      <h1 class="patients__title">Bemorlar</h1>
+
+      <v-text-field
+              v-model="firstName"
+              label="Ism"
+              :rules="[requiredRule]"
+              class="patients__inp patients__fname"
+              prepend-inner-icon="mdi-pencil"
+              required
+            ></v-text-field>
 
       <v-overlay v-model="overlay" class="patients__overlay">
         <v-card class="patients__overlay-card" elevation="7">

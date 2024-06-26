@@ -155,7 +155,7 @@ function addReport() {
     link: "https://maga-sv.netlify.app",
   };
 
-  dataStore.patchPatientReports(patient.id, newReport);
+  dataStore.patchPatientReports(patient.value.id, newReport);
 }
 </script>
 

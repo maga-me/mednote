@@ -25,9 +25,9 @@ function logout() {
   if (userData.value) {
     localStorage.removeItem("userData");
     userData.value = null;
-    location.reload();
-
+    
     setTimeout(() => {
+      location.reload();
       router.push("/login");
     }, 300);
   }
