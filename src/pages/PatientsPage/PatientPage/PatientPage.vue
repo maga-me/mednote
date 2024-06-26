@@ -8,6 +8,7 @@ import { useDataStore } from "../../../stores/data.js";
 
 const router = useRoute();
 const dataStore = useDataStore();
+const userData = JSON.parse(localStorage.getItem('userData'));
 
 const patient = computed(() => dataStore.patientData);
 const edit = ref(false);
@@ -26,7 +27,7 @@ onMounted(() => {
   const fullPath = router.fullPath;
   const segments = fullPath.split("/");
   const id = segments[segments.length - 1];
-  dataStore.findPatientById(id);
+  dataStore.findPatientById(id, userData.userId);
 });
 
 const load = ref(true);
@@ -143,12 +144,6 @@ const getNextId = () => {
   return lastReport ? lastReport.id + 1 : 1;
 };
 
-// Function to add a new report
-// const addReport = () => {
-//   const newReport = { id: newId, name: `Report ${newId}` };
-//   reports.value.push(newReport);
-// };
-
 function addReport() {
   const newId = getNextId();
   const getDate = new Date;
@@ -168,8 +163,6 @@ function addReport() {
   <section v-if="load">Loading...</section>
   <section class="patient" v-show="dataStore ? true : false" v-else>
     <div class="container">
-      {{ patient }}
-      <br />
       <h1 class="patient__title">Bemorning sahifasi - {{ firstName }}</h1>
 
       <v-sheet class="patient__edit-sheet">
@@ -185,7 +178,7 @@ function addReport() {
 
       <v-form @submit.prevent="submit" class="patient__form">
         <v-row>
-          <v-col cols="12" sm="6">
+          <v-col cols="12" sm="3">
             <v-text-field
               label="Ism"
               v-model="firstName"
@@ -196,7 +189,7 @@ function addReport() {
               :rules="[() => !!firstName || `Bu joyni to'ldiring`]"
             ></v-text-field>
           </v-col>
-          <v-col cols="12" sm="6">
+          <v-col cols="12" sm="3">
             <v-text-field
               label="Familiya"
               v-model="lastName"
@@ -207,7 +200,7 @@ function addReport() {
               :rules="[() => !!lastName || `Bu joyni to'ldiring`]"
             ></v-text-field>
           </v-col>
-          <v-col cols="12" sm="6">
+          <v-col cols="12" sm="3">
             <v-text-field
               label="Otasining ismi"
               v-model="middleName"
@@ -219,7 +212,7 @@ function addReport() {
             ></v-text-field>
           </v-col>
 
-          <v-col cols="12" sm="6" class="patient__col">
+          <v-col cols="12" sm="3" class="patient__col">
             <v-card for="dp" :elevation="2" class="patient__card">
               <label for="dp" class="patient__label"
                 >Tug'ilgan kun, oy, yil</label
@@ -237,7 +230,7 @@ function addReport() {
               ></VueDatePicker>
             </v-card>
           </v-col>
-          <v-col cols="12" sm="6">
+          <v-col cols="12" sm="3">
             <v-text-field
               label="Ambulator raqam"
               v-model="ambulatorCard"
@@ -248,7 +241,7 @@ function addReport() {
               :rules="[() => !!ambulatorCard || `Bu joyni to'ldiring`]"
             ></v-text-field>
           </v-col>
-          <v-col cols="12" sm="6">
+          <v-col cols="12" sm="3">
             <v-text-field
               label="Manzil"
               v-model="address"
@@ -259,7 +252,7 @@ function addReport() {
               :rules="[() => !!address || `Bu joyni to'ldiring`]"
             ></v-text-field>
           </v-col>
-          <v-col cols="12" sm="6">
+          <v-col cols="12" sm="3">
             <v-text-field
               label="Telefon raqam"
               v-model="phone"

@@ -76,6 +76,54 @@ export const useDataStore = defineStore("data", {
         type: "patient",
         doctorId: 2,
       },
+      {
+        id: 6,
+        firstName: "FFFF",
+        lastName: "LLL",
+        middleName: "MMMM",
+        dateOfBirth: "2008-10-30T12:30:00Z",
+        address: "Tashkent",
+        phone: "+998976554321",
+        ambulatorCard: "N12345",
+        type: "patient",
+        doctorId: 2,
+      },
+      {
+        id: 6,
+        firstName: "FFFF",
+        lastName: "LLL",
+        middleName: "MMMM",
+        dateOfBirth: "2008-10-30T12:30:00Z",
+        address: "Tashkent",
+        phone: "+998976554321",
+        ambulatorCard: "N12345",
+        type: "patient",
+        doctorId: 2,
+      },
+      {
+        id: 6,
+        firstName: "FFFF",
+        lastName: "LLL",
+        middleName: "MMMM",
+        dateOfBirth: "2008-10-30T12:30:00Z",
+        address: "Tashkent",
+        phone: "+998976554321",
+        ambulatorCard: "N12345",
+        type: "patient",
+        doctorId: 2,
+      },
+      {
+        id: 6,
+        firstName: "FFFF",
+        lastName: "LLL",
+        middleName: "MMMM",
+        dateOfBirth: "2008-10-30T12:30:00Z",
+        address: "Tashkent",
+        phone: "+998976554321",
+        ambulatorCard: "N12345",
+        type: "patient",
+        doctorId: 2,
+      },
     ],
     reporterList: [
       {
@@ -343,9 +391,9 @@ export const useDataStore = defineStore("data", {
     addReporter(reporter) {
       this.reporterList.unshift(reporter);
     },
-    findPatientById(id) {
+    findPatientById(id, doctorId) {
       this.patientData = this.patientList.find(
-        (patient) => patient.id === Number(id)
+        (patient) => patient.id === Number(id) && patient.doctorId == Number(doctorId)
       );
     },
     patchPatient(updatedPatient) {

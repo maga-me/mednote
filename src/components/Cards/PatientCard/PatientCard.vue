@@ -5,12 +5,12 @@
       <v-card-title class="text-overline patients__card-title">
         Bemor
         <p
-          class=" text-h4 font-weight-bold patients__card-fname"
+          class="text-h5 font-weight-bold patients__card-fname"
         >
           {{ user?.firstName }}
         </p>
         <p
-          class="text-h6 text-medium-emphasis font-weight-regular patients__card-lname"
+          class="text-h7 text-medium-emphasis font-weight-regular patients__card-lname"
         >
           {{ user?.lastName }}
         </p>
@@ -30,6 +30,7 @@
         lines="two"
         subtitle="Details and agreement"
         link
+        class="patients__card-link"
       ></v-list-item>
     </router-link>
   </v-card>

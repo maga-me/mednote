@@ -3,17 +3,18 @@
 
   &-desc {
     padding: 10px 15px !important;
-
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
+
   }
 
   &-title {
     padding: 0 !important;
+    width: 50% !important;
   }
 
   &-fname {
-    font-size: 36px !important;
+    font-size: 20px !important;
     color: rgb(1, 128, 1) !important;
   }
 
@@ -21,6 +22,7 @@
     padding: 0 !important;
     display: flex !important;
     justify-content: flex-end;
+    width: 50% !important;
   }
 
   &-phone {
@@ -28,5 +30,11 @@
     a {
       color: #333 !important;
     }
+  }
+
+  &-link {
+    min-height: 50px !important;
+    max-height: 50px !important;
+    padding: 5px 20px !important;
   }
 }
