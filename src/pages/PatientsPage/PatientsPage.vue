@@ -35,7 +35,9 @@ watch(userDataInLS, () => {
 });
 
 function getDetails() {
-  list.value = data.patientList.filter(el => el.doctorId === userDataInLS.value?.userId);
+  list.value = data.patientList.filter(
+    (el) => el.doctorId === userDataInLS.value?.userId
+  );
 }
 
 const firstName = ref("");
@@ -68,7 +70,7 @@ function addPatient() {
       type: "patient",
       doctorId: userDataInLS.value?.userId,
     });
-    getDetails()
+    getDetails();
     console.log(userDataInLS.value?.userId);
     overlay.value = false;
 
@@ -84,10 +86,10 @@ function addPatient() {
   }
 }
 
-const requiredRule = (value) => value ? true : `Bu joyni to'ldiring`;
+const requiredRule = (value) => (value ? true : `Bu joyni to'ldiring`);
 
 const numInputRules = [
-  (value) => !isNaN(value) ? true : "Faqat raqam kiriting",
+  (value) => (!isNaN(value) ? true : "Faqat raqam kiriting"),
 ];
 
 // Date Picker
@@ -97,7 +99,9 @@ const format = (date) => {
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
 
-  return `${day > 9 ? day : "0" + day}.${month > 9 ? month : "0" + month}.${year}`;
+  return `${day > 9 ? day : "0" + day}.${
+    month > 9 ? month : "0" + month
+  }.${year}`;
 };
 
 const id = `dp-${Math.random().toString(36).substring(2, 10)}`;
@@ -110,20 +114,39 @@ const handleFocus = () => {
 const handleBlur = () => {
   isFocused.value = false;
 };
+
+// asdasd
+
+const loaded = ref(false);
+const loadingSearch = ref(false);
+
+function onClick() {
+  loadingSearch.value = true;
+
+  setTimeout(() => {
+    loadingSearch.value = false;
+    loaded.value = true;
+  }, 2000);
+}
 </script>
 
 <template>
   <section class="patients" v-if="userDataInLS">
     <div class="container">
-
-      <v-text-field
-              v-model="firstName"
-              label="Ism"
-              :rules="[requiredRule]"
-              class="patients__inp patients__fname"
-              prepend-inner-icon="mdi-pencil"
-              required
-            ></v-text-field>
+      <v-card class="mx-auto" color="surface-light" max-width="700">
+        <v-card-text>
+          <v-text-field
+            :loading="loadingSearch"
+            append-inner-icon="mdi-magnify"
+            density="compact"
+            label="Search templates"
+            variant="solo"
+            hide-details
+            single-line
+            @click:append-inner="onClick"
+          ></v-text-field>
+        </v-card-text>
+      </v-card>
 
       <v-overlay v-model="overlay" class="patients__overlay">
         <v-card class="patients__overlay-card" elevation="7">

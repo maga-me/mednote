@@ -1,19 +1,22 @@
 <script setup>
-import { ref, onMounted, computed, watch } from "vue";
+import { ref, onMounted, computed, watch, defineProps } from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
+import Print from "@/components/Modals/Print/Print.vue";
 import { uz } from "date-fns/locale";
 import { useRoute } from "vue-router";
 import { useDataStore } from "../../../stores/data.js";
+import "@vuepic/vue-datepicker/dist/main.css";
 
 const router = useRoute();
 const dataStore = useDataStore();
-const userData = JSON.parse(localStorage.getItem('userData'));
+// const props = defineProps()
+const userData = JSON.parse(localStorage.getItem("userData"));
 
 const patient = computed(() => dataStore.patientData);
 const edit = ref(false);
 const submitLoading = ref(false);
 const submitBool = ref(false);
+const overlay = ref(false);
 
 const firstName = ref("");
 const lastName = ref("");
@@ -22,6 +25,43 @@ const dateOfBirth = ref("");
 const address = ref("");
 const phone = ref("");
 const ambulatorCard = ref("");
+
+const informations = ref({
+  id: patient.value.id,
+  firstName: firstName.value,
+  lastName: lastName.value,
+  middleName: middleName.value,
+  dateOfBirth: dateOfBirth.value,
+  address: address.value,
+  phone: phone.value,
+  ambulatorCard: ambulatorCard.value,
+});
+
+// print
+
+const returnDate = ref(null);
+const comment = ref("");
+
+const recommendations = ref([]);
+const newRecommendation = ref("");
+
+const addRecommendation = () => {
+  if (newRecommendation.value.trim() !== "") {
+    // emit("newRecommendation", newRecommendation.value.trim())
+    recommendations.value.push(newRecommendation.value.trim());
+
+    // addRec
+
+    newRecommendation.value = "";
+  }
+};
+
+const delRecommendation = (chipIdx) => {
+  // alert(chipIdx);
+  recommendations.value.splice(chipIdx, 1);
+};
+
+// print
 
 onMounted(() => {
   const fullPath = router.fullPath;
@@ -44,6 +84,17 @@ function resetPatientData() {
   address.value = patient.value?.address || "";
   phone.value = patient.value?.phone || "";
   ambulatorCard.value = patient.value?.ambulatorCard || "";
+
+  informations.value = {
+    id: patient.value.id,
+    firstName: firstName.value,
+    lastName: lastName.value,
+    middleName: middleName.value,
+    dateOfBirth: dateOfBirth.value,
+    address: address.value,
+    phone: phone.value,
+    ambulatorCard: ambulatorCard.value,
+  };
 }
 
 function toggleEdit(type, func) {
@@ -118,6 +169,12 @@ watch(patient, (newVal) => {
   }
 });
 
+// watch(returnDate.value, (newVal) => {
+//   if (newVal) {
+
+//   }
+// });
+
 watch(
   [firstName, lastName, middleName, dateOfBirth, address, phone, ambulatorCard],
   sameChecker,
@@ -145,21 +202,148 @@ const getNextId = () => {
 };
 
 function addReport() {
-  const newId = getNextId();
-  const getDate = new Date;
-  console.log(getDate);
-  const newReport = {
-    id: newId,
-    date: format(getDate),
-    returnDate: "17/06/2024",
-    link: "https://maga-sv.netlify.app",
-  };
+  // const newId = getNextId();
+  // const getDate = new Date;
+  // console.log(getDate);
+  // const newReport = {
+  //   id: newId,
+  //   date: format(getDate),
+  //   returnDate: "17/06/2024",
+  //   link: "https://maga-sv.netlify.app",
+  // };
 
-  dataStore.patchPatientReports(patient.value.id, newReport);
+  // dataStore.patchPatientReports(patient.value.id, newReport);
+  overlay.value = true;
 }
+
+// Date Picker
+
+const id = `dp-${Math.random().toString(36).substring(2, 10)}`;
+const isFocused = ref(false);
+
+const handleFocus = () => {
+  isFocused.value = true;
+};
+
+const handleBlur = () => {
+  isFocused.value = false;
+};
+
+// Draggable
+
+const updateRecommendations = (newRecommendations) => {
+  recommendations.value = newRecommendations;
+};
+
+// Draggable
+
+// PrintChil component
+
+const printComponentRef = ref(null);
+
+const printChildComponent = () => {
+  // const printArea = printComponentRef.value.$el; // Access the child's DOM element
+  // const originalContents = document.body.innerHTML;
+
+  // document.body.innerHTML = printArea.innerHTML;
+  window.print();
+  // document.body.innerHTML = originalContents;
+};
+
+// PrintChil component
 </script>
 
 <template>
+  <v-overlay
+    v-model="overlay"
+    class="print__module--overlay"
+    @click="overlay = false"
+  >
+    <div class="print__module">
+      <div class="print__module-edit component" @click.stop>
+        <h2 class="print__title">Hisobotni tahrirlash</h2>
+        <div class="add-recommendation">
+          <v-text-field
+            label="Тавсия киритинг"
+            variant="outlined"
+            clearable
+            v-model="newRecommendation"
+            aria-required
+            @keyup.enter="addRecommendation"
+          />
+          <v-btn elevation="1" color="success" @click="addRecommendation"
+            >Қўшиш</v-btn
+          >
+          <!-- <ul>
+            <li>
+              <v-chip
+                v-for="(chip, idx) in recommendations"
+                :key="idx"
+                class="ma-2"
+                append-icon="mdi-close"
+                color="error"
+                @click="delRecommendation(idx)"
+              >
+                {{ chip }}
+              </v-chip>
+            </li>
+          </ul> -->
+        </div>
+        <br />
+        <v-textarea
+          label="Izoh киритинг"
+          variant="outlined"
+          v-model="comment"
+        ></v-textarea>
+
+        <div class="print__date-picker_wrapper">
+          <label
+            :for="id"
+            class="print__date-picker_label"
+            :class="{ 'label-active': isFocused || returnDate }"
+          >
+            Кайта кўрик
+          </label>
+          <VueDatePicker
+            v-model="returnDate"
+            :format="format"
+            :format-locale="uz"
+            class="print__date-picker"
+            cancel-text="Bekor qilish"
+            select-text="Saqlash"
+            :id="id"
+            required
+            @focus="handleFocus"
+            @blur="handleBlur"
+            :class="{ isFocused: isFocused }"
+          ></VueDatePicker>
+        </div>
+
+        <v-btn @click="printChildComponent" color="success">Print</v-btn>
+      </div>
+
+      <Print
+        class="print__module-print component"
+        ref="printComponentRef"
+        :recommendations="recommendations"
+        :informations="informations"
+        :returnDate="returnDate"
+        :comment="comment"
+        @delRecommendation="delRecommendation"
+        @update-recommendations="updateRecommendations"
+        @click.stop
+      />
+
+      <!-- <Print
+        class="print__module-print component"
+        :recommendations="recommendations"
+        @delRecommendation="delRecommendation"
+        @update:recommendations="updateRecommendations"
+        @click.stop
+      /> -->
+    </div>
+  </v-overlay>
+
   <section v-if="load">Loading...</section>
   <section class="patient" v-show="dataStore ? true : false" v-else>
     <div class="container">
@@ -178,7 +362,7 @@ function addReport() {
 
       <v-form @submit.prevent="submit" class="patient__form">
         <v-row>
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="2">
             <v-text-field
               label="Ism"
               v-model="firstName"
@@ -189,7 +373,7 @@ function addReport() {
               :rules="[() => !!firstName || `Bu joyni to'ldiring`]"
             ></v-text-field>
           </v-col>
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="2">
             <v-text-field
               label="Familiya"
               v-model="lastName"
@@ -200,7 +384,7 @@ function addReport() {
               :rules="[() => !!lastName || `Bu joyni to'ldiring`]"
             ></v-text-field>
           </v-col>
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="2">
             <v-text-field
               label="Otasining ismi"
               v-model="middleName"
@@ -212,7 +396,7 @@ function addReport() {
             ></v-text-field>
           </v-col>
 
-          <v-col cols="12" sm="3" class="patient__col">
+          <v-col cols="12" sm="2" class="patient__col">
             <v-card for="dp" :elevation="2" class="patient__card">
               <label for="dp" class="patient__label"
                 >Tug'ilgan kun, oy, yil</label
@@ -230,7 +414,7 @@ function addReport() {
               ></VueDatePicker>
             </v-card>
           </v-col>
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="2">
             <v-text-field
               label="Ambulator raqam"
               v-model="ambulatorCard"
@@ -241,7 +425,7 @@ function addReport() {
               :rules="[() => !!ambulatorCard || `Bu joyni to'ldiring`]"
             ></v-text-field>
           </v-col>
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="2">
             <v-text-field
               label="Manzil"
               v-model="address"
@@ -252,7 +436,7 @@ function addReport() {
               :rules="[() => !!address || `Bu joyni to'ldiring`]"
             ></v-text-field>
           </v-col>
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="2">
             <v-text-field
               label="Telefon raqam"
               v-model="phone"
@@ -306,3 +490,10 @@ function addReport() {
     </div>
   </section>
 </template>
+
+<style lang="scss" scoped>
+#dp {
+  z-index: 98;
+  background: #fff;
+}
+</style>

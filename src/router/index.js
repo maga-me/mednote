@@ -4,6 +4,7 @@ import LoginPage from "../pages/LoginPage/LoginPage.vue";
 import ReportersPage from "../pages/ReportersPage/ReportersPage.vue";
 import PatientsPage from "../pages/PatientsPage/PatientsPage.vue";
 import PatientPage from "../pages/PatientsPage/PatientPage/PatientPage.vue";
+import Print from "../components/Modals/Print/Print.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +38,11 @@ const router = createRouter({
       component: PatientPage,
       props: true,
     },
+    {
+      path: "/print",
+      name: "print",
+      component: Print
+    }
   ],
 });
 

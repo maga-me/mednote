@@ -1,28 +1,67 @@
-@font-face {
-  font-family: "MabryPro";
-  font-style: normal;
-  font-weight: normal;
-  src: url("../fonts/MabryPro-Regular.woff2") format("woff2");
-  text-rendering: optimizeLegibility;
+// @font-face {
+//   font-family: "MabryPro";
+//   font-style: normal;
+//   font-weight: normal;
+//   src: url("../fonts/MabryPro-Regular.woff2") format("woff2");
+//   text-rendering: optimizeLegibility;
+// }
+// @font-face {
+//   font-family: "MabryPro";
+//   font-style: normal;
+//   font-weight: 700;
+//   src: url("../fonts/MabryPro-Bold.woff2") format("woff2");
+//   text-rendering: optimizeLegibility;
+// }
+// @font-face {
+//   font-family: "Rainer";
+//   font-style: normal;
+//   font-weight: normal;
+//   src: url("../fonts/Rainer-Regular.woff2") format("woff2");
+//   text-rendering: optimizeLegibility;
+// }
+// @font-face {
+//   font-family: "Rainer";
+//   font-style: normal;
+//   font-weight: 700;
+//   src: url("../fonts/Rainer-Bold.woff2") format("woff2");
+//   text-rendering: optimizeLegibility;
+// }
+
+$Roboto: (
+  "Bold": 700,
+  "Light": 300,
+  "Medium": 500,
+  "Regular": 400
+);
+
+$Inter: (
+  "Light": 300,
+  "Regular": 400,
+  "SemiBold": 600,
+  "Medium": 500,
+  "Bold": 700,
+  "ExtraBold": 800
+);
+
+$roboto-path: "../../fonts/Roboto/Roboto";
+$inter-path: "../../fonts/Inter/Inter";
+
+@each $weight-name, $weight-value in $Roboto {
+  @font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: $weight-value;
+    src: url("#{$roboto-path}-#{$weight-name}.ttf");
+    text-rendering: optimizeLegibility;
+  }
 }
-@font-face {
-  font-family: "MabryPro";
-  font-style: normal;
-  font-weight: 700;
-  src: url("../fonts/MabryPro-Bold.woff2") format("woff2");
-  text-rendering: optimizeLegibility;
-}
-@font-face {
-  font-family: "Rainer";
-  font-style: normal;
-  font-weight: normal;
-  src: url("../fonts/Rainer-Regular.woff2") format("woff2");
-  text-rendering: optimizeLegibility;
-}
-@font-face {
-  font-family: "Rainer";
-  font-style: normal;
-  font-weight: 700;
-  src: url("../fonts/Rainer-Bold.woff2") format("woff2");
-  text-rendering: optimizeLegibility;
+
+@each $weight-name, $weight-value in $Inter {
+  @font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: $weight-value;
+    src: url("#{$inter-path}-#{$weight-name}.ttf");
+    text-rendering: optimizeLegibility;
+  }
 }
