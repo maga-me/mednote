@@ -65,6 +65,9 @@ onMounted(() => {
         class="mx-auto px-6 py-8 login__card"
         max-width="344"
       >
+
+      <h1>Masdasd</h1>
+
         <v-card-title class="login__title">Kirish</v-card-title>
         <v-form v-model="form" class="login__form" @submit.prevent="onSubmit">
           <v-text-field
