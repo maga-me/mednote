@@ -1,13 +1,11 @@
 .login {
     height: calc(100svh - 91px);
     margin-top: 0;
-    
     &__box {
         height: 100% !important;
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
-        background: red !important;
     }
     
     &__card {
